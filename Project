@@ -40,3 +40,22 @@ class FilePrep
     ArrayList<String> linesList = newArrayList<String>();
     String line;
     while ((line = soupContent.readline()) != null)
+    {
+      linesList.add(line);
+    }
+    int rows = linesList.size();
+    int columns = linesList.get(0).length();
+  }
+  private static boolean verifyMatrix(ArrayList<String> linesList, int rows, int columns)
+  {
+    for (i=0; i < rows; i++)
+    {
+      if (linesList.get(i).length() != columns)
+      {
+        return false;
+      }
+      for (j=0; j < columns; j++)
+      {
+        if linesList.get(i).charAt(j)
+
+   // Pause.  Current Status: Determining if any of the characters in the matrix is not a letter.
