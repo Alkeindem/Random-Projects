@@ -1,0 +1,42 @@
+/*/ Programming language: java
+/   This code is supposed to look for words in a soup letter.
+/   The code receives a soup letter matrix from a plain text, and a list with words in another one.
+/   The code must find the words of the second file in the matrix of the first.
+/   All of this, by using state space search or search space.
+/*/
+
+// Current class: FilePrep
+// This class saves all the code reserved for the ubication and preparation of files.
+
+// Import Block
+import java.io.FileReader
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.FileNotFoundException
+
+
+class FilePrep
+{
+  String workingDir = System.getProperty("user.dir");
+  public static void filePrep(String workingDir)
+  {
+    FileReader soupFile = new FileReader(workingDir + "\Sopa.in");
+    FileReader wordsFile = new FileReader(workingDir + "\Palabras.in");
+    BufferedReader soupContent = new BufferedReader(soupFile);
+    BufferedReader wordsContent = new BufferedReader(wordsFile);
+    ArrayList<String> wordsList = insertWordsInSoup();
+  }
+  public static ArrayList<String> insertWordsInList(BufferedReader wordsContent)
+  {
+    ArrayList<String> wordsList = new ArrayList<String>();
+    String line;
+    while ((line = wordsContent.readLine()) != null)
+    {
+      wordsList.add(line);
+    }
+  }
+  public static char[][] insertCharactersInSoup(BufferedReader soupContent)
+  {
+    ArrayList<String> linesList = newArrayList<String>();
+    String line;
+    while ((line = soupContent.readline()) != null)
