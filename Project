@@ -2,60 +2,110 @@
 /   This code is supposed to look for words in a soup letter.
 /   The code receives a soup letter matrix from a plain text, and a list with words in another one.
 /   The code must find the words of the second file in the matrix of the first.
-/   All of this, by using state space search or search space.
+/   All of this, by using state space search or solution space search.
 /*/
 
 // Current class: FilePrep
 // This class saves all the code reserved for the ubication and preparation of files.
 
 // Import Block
-import java.io.FileReader
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.FileNotFoundException
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 
-class FilePrep
-{
-  String workingDir = System.getProperty("user.dir");
-  public static void filePrep(String workingDir)
-  {
-    FileReader soupFile = new FileReader(workingDir + "\Sopa.in");
-    FileReader wordsFile = new FileReader(workingDir + "\Palabras.in");
-    BufferedReader soupContent = new BufferedReader(soupFile);
-    BufferedReader wordsContent = new BufferedReader(wordsFile);
-    ArrayList<String> wordsList = insertWordsInSoup();
-  }
-  public static ArrayList<String> insertWordsInList(BufferedReader wordsContent)
-  {
-    ArrayList<String> wordsList = new ArrayList<String>();
-    String line;
-    while ((line = wordsContent.readLine()) != null)
-    {
-      wordsList.add(line);
-    }
-  }
-  public static char[][] insertCharactersInSoup(BufferedReader soupContent)
-  {
-    ArrayList<String> linesList = newArrayList<String>();
-    String line;
-    while ((line = soupContent.readline()) != null)
-    {
-      linesList.add(line);
-    }
-    int rows = linesList.size();
-    int columns = linesList.get(0).length();
-  }
-  private static boolean verifyMatrix(ArrayList<String> linesList, int rows, int columns)
-  {
-    for (i=0; i < rows; i++)
-    {
-      if (linesList.get(i).length() != columns)
-      {
-        return false;
-      }
-      for (j=0; j < columns; j++)
-      {
-        if linesList.get(i).charAt(j)
+class FilesPrep
+{	
+    // Metodos
+    public static ArrayList<String> prepareList(String workingDir) throws FileNotFoundException, IOException
+  	{
+    	FileReader wordsFile = new FileReader(workingDir + "/Palabras.in");
+    	BufferedReader wordsContent = new BufferedReader(wordsFile);
+    	ArrayList<String> wordsList = insertWordsInList(wordsContent);
+    	return wordsList;
+  	}
 
-   // Pause.  Current Status: Determining if any of the characters in the matrix is not a letter.
+  	public static char[][] prepareMatrix(String workingDir) throws FileNotFoundException, IOException
+  	{
+  		FileReader soupFile = new FileReader(workingDir + "/Sopa.in");
+  		BufferedReader soupContent = new BufferedReader(soupFile);
+  		char[][] matrix = insertCharactersInSoup(soupContent);
+  		return matrix;
+  	}
+    private static ArrayList<String> insertWordsInList(BufferedReader wordsContent) throws IOException
+  	{
+    	ArrayList<String> wordsList = new ArrayList<String>();
+    	String line;
+    	while ((line = wordsContent.readLine()) != null)
+    	{
+      	wordsList.add(line);
+    	}
+    	return wordsList;
+  	}
+
+    private static char[][] insertCharactersInSoup(BufferedReader soupContent) throws IOException
+  	{
+	    ArrayList<String> linesList = new ArrayList<String>();
+	    String line;
+	    while ((line = soupContent.readLine()) != null)
+	    {
+	    	if (!(line.equals("")))
+	    	{
+     	 		linesList.add(line);
+     	 	}
+    	}
+
+    	// Funcion del bucle: Eliminar los espacios entre letras
+    	for (String element : linesList)
+    	{
+    		String tempLine = "";
+    		for (int z = 0; z < element.length() ; z++)
+    		{
+    			if (element.charAt(z) != ' ')
+    			{
+    				tempLine = tempLine + element.charAt(z);
+    			}
+    		}
+    		linesList.set(linesList.indexOf(element), tempLine);
+    	}
+
+    	int rows = linesList.size();
+    	int columns = linesList.get(0).length();
+    	if (verifyMatrix(linesList, rows, columns))
+    	{
+	    	System.out.println("The matrix inserted is not valid. Please check and try again. Program will stop now.");
+    		System.exit(1);
+    	}
+    	char[][] matrix = new char[rows][columns];
+    	for (int i=0; i < rows; i++)
+    	{
+	    	for (int j=0; j < columns; j++)
+    		{
+	    		matrix[i][j] = linesList.get(i).charAt(j);
+    		}
+    	}
+    	return matrix;
+  	}
+
+    private static boolean verifyMatrix(ArrayList<String> linesList, int rows, int columns)
+  	{	
+  		for (int i=0; i < rows; i++)
+    	{
+      		if (linesList.get(i).length() != columns)		// The matrix could not be a square one.
+      		{
+		        return true;
+      		}
+      		for (int j=0; j < columns; j++)
+      		{
+		      	char ctr = linesList.get(i).charAt(j);
+        		if (!(Character.isLetter(ctr) || Character.isLowerCase(ctr)))
+        		{
+		        	return true;
+        		} 
+      		}
+  		}
+  		return false;
+  	}
+}
