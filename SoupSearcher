@@ -1,0 +1,174 @@
+/*/ Programming language: java
+/   This code is supposed to look for words in a soup letter.
+/   The code receives a letter soup matrix from a plain text, and a list with words in another one.
+/   The code must find the words of the second file in the matrix of the first.
+/   All of this, by using state space search or solution space search.
+/*/
+
+// Current class: SoupSearcher
+// This class is the responsible for looking for the requested words in the letter soup.
+
+// Import Block
+
+import java.util.ArrayList;
+
+// Estado = ["sara","0,3"]
+
+class SoupSearcher
+{
+
+	public static void main(String[] args) throws FileNotFoundException, IOException
+	{
+		String workingDir = System.getProperty("user.dir");
+		FilesPrep prepare = new FilesPrep();
+		char[][] matrix = prepare.prepareMatrix(workingDir);
+		ArrayList<String> wordsList = prepare.prepareList(workingDir);
+		for (String target : wordsList)
+		{
+			String[] initialState = new String[2];
+			ArrayList<String> coords = searchLetter(target.charAt(0), matrix);
+			initialState[0] = target.charAt(0);
+			for (String singleCoord : coords)
+			{
+				initialState[1] = singleCoord;
+				findWord(initialState, matrix, target);
+			}
+
+		}
+	}
+
+	private static ArrayList<String> searchLetter(char letter, char[][] matrix)
+	{
+		ArrayList<String> coords = new ArrayList<String>();
+		for (char[] row : matrix)
+		{
+			int i = 0;
+			for (char column : row)
+			{
+				int j = 0;
+				if (column == letter)
+				{
+					coords.add(Integer.toString(i) + "," + Integer.toString(j));
+				}
+				j++
+			}
+			i++
+		}
+		return coords;
+	}
+
+	private static void findWord(String[] initialState, char[][] matrix, String target)
+	{
+		ArrayList<String[]> openStates = new ArrayList<String[]>();
+		ArrayList<String[]> closedStates = new ArrayList<String[]>();
+		openStates.add(initialState);
+		while (openStates.size() > 0)
+		{
+			String currentState = openStates.get(0);
+			openStates.remove(0);
+			closedStates.add(currentState);
+
+			if (upTransitionIsValid(currentState, target, matrix))
+			{
+				String[] newState = goUp();
+				if (!(openStates.contains(newState) || closedStates.contains(newState)))
+				{
+					openStates.add(newState);
+				}
+			}
+
+			if (downTransitionIsValid(currentState, target, matrix))
+			{
+				String[] newState = goDown();
+				if (!(openStates.contains(newState) || closedStates.contains(newState)))
+				{
+					openStates.add(newState);
+				}
+			}		
+
+			if (leftTransitionIsValid(currentState, target, matrix))
+			{
+				String[] newState = goLeft();
+				if (!(openStates.contains(newState) || closedStates.contains(newState)))
+				{
+					openStates.add(newState);
+				}
+			}	
+
+			if (rigthTransitionIsValid(currentState, target, matrix))
+			{
+				String[] newState = goRigth();
+				if (!(openStates.contains(newState) || closedStates.contains(newState)))
+				{
+					openStates.add(newState);
+				}
+			}
+		}
+	}
+
+	private static boolean upTransitionIsValid(String[] currentState, String target, char[][] matrix)
+	{	String currentWord = currentState[0];
+		int x = Integer.parseInt(currentState[1].chatAt(0));
+		int y = Integer.parseInt(currentState[1].charAt(2));
+		char toSearchChar = target.charAt(currentWord.length());
+		if (y - 1 < 0)
+		{
+			return false;
+		}
+		else if (matrix[x][y-1] != toSearchChar)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean downTransitionIsValid(String[] currentState, String target, char[][] matrix)
+	{	String currentWord = currentState[0];
+		int x = Integer.parseInt(currentState[1].chatAt(0));
+		int y = Integer.parseInt(currentState[1].charAt(2));
+		char toSearchChar = target.charAt(currentWord.length());
+		if (y + 1 >= matrix.size())
+		{
+			return false;
+		}
+		else if (matrix[x][y+1] != toSearchChar)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean leftTransitionIsValid(String[] currentState, String target, char[][] matrix)
+	{	String currentWord = currentState[0];
+		int x = Integer.parseInt(currentState[1].chatAt(0));
+		int y = Integer.parseInt(currentState[1].charAt(2));
+		char toSearchChar = target.charAt(currentWord.length());
+		if (x - 1 < 0)
+		{
+			return false;
+		}
+		else if (matrix[x-1][y] != toSearchChar)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean rigthTransitionIsValid(String[] currentState, String target, char[][] matrix)
+	{	String currentWord = currentState[0];
+		int x = Integer.parseInt(currentState[1].chatAt(0));
+		int y = Integer.parseInt(currentState[1].charAt(2));
+		char toSearchChar = target.charAt(currentWord.length());
+		if (x + 1 >= matrix[0].size())
+		{
+			return false;
+		}
+		else if (matrix[x+1][y] != toSearchChar)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	
+}
