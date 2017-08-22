@@ -4,3 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int main()
+{
+  char search[50];
+  printf("Ingrese una entrada de un maximo de 50 caracteres\n");
+  fgets(search, sizeof(search), stdin);
+  return 1;
+}
