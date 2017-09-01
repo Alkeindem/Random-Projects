@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+/*/ Useful Data:
+     - 3 clientes cada 5 minutos.
+     - 1/3 Depositos -> 5 minutos.
+     - 2/3 Cobrar Cheques -> 10 minutos.
+     - 4 cajas.
+     - 72 clientes (24 Depositos - 48 Giros)
+     - 
+      
+      Objective = Obtener tiempo de espera promedio de cada cliente.
+      Time interval = 12:00 - 14:00
+      
+      Tasks:
+      - 0: Deposito
+      - 1: Giro
+/*/
+
+typedef struct Client
+{
+    int task;               // Type of task that comes to do.
+    int timeOfEspereishon;     // Time it has been waiting
+    int assisted;               // 0 if waiting, 1 if being assisted
+    struct Client *next;        // Pointer to next element
+} client;
+
+
+void addToQueue(struct queue, int task)
+{
+    aux = queue;
+    int accTime = 0;
+    while(aux->next != NULL)
+    {
+        aux = aux->next
+        accTime += aux.timeOfEspereishon;
+    }
+    
+    aux->next = malloc(sizeof(client));
+    if(task == 0)
+    {
+        aux->next->task = 0;
+        aux->next->timeOfEspereishon = 
+    }
+}
+
+int main()
+{
+    client* firstQueue;
+    client* secondQueue;
+    client* thirdQueue;
+    client* fourthQueue;
+    int depositos = 24;
+    int giros = 48;
+    
+    client* head1 = NULL;
+    firstQueue = malloc(sizeof(client));
+    
+    while((depositos > 0) || (giros > 0))
+    {
+        
+    }
+    
+    firstQueue->task = 0;
+    firstQueue->timeOfEspereishon = 0;
+    firstQueue->assisted = 1;
+    firstQueue->next = malloc(sizeof(client));
+    return 0;
+}
