@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+struct stack{
+    char datos[100][30];
+    int top;
+};
+
+typedef struct stack Stack;
+
+Stack* crearStack()
+{
+    Stack* s;
+    s=(Stack*)malloc(sizeof(Stack));
+    s->top = 0;
+    return s;
+}
+
+char* pop(Stack* p)
+{
+    if(p->top==-1)
+        return NULL;
+
+    p->top--;
+    return p->datos[p->top+1];
+}
+
+char* push(Stack* p, char* valor)
+{
+    if (p->top==99)
+        return NULL;
+    else
+    {
+        p->top++;
+        strcpy(p->datos[p->top], valor);
+        return valor;
+    }
+}
+
+int main()
+{
+    Stack* p;
+    char valor[30];
+    p=crearStack();
+    if(p==NULL)
+    {
+        printf("Fallo de memoria");
+        exit(1);
+    }
+    printf("Ingrese un valor");
+    scanf("%s", &valor);
+    push(p, valor);
+    pop(p);
+    printf("El valor guardado es %s\n", valor);
+}
