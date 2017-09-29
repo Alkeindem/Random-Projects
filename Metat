@@ -1,0 +1,100 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node
+{
+  int metat;
+  struct Node* next;
+} node;
+
+void add(node* head, int value)
+{
+  node* current = head;
+  while(current->next != NULL)
+  {
+    current = current -> next;
+  }
+  
+  node* auxNode = (node*) malloc(sizeof(node*));
+  auxNode->metat = value;
+  auxNode->next = NULL;
+  
+  current->next = auxNode;
+}
+
+int len(node* head)
+{
+  int i = 0;
+  node* current = head;
+  for(i; current->next != NULL; i++)
+  {
+    current = current-> next;
+  }
+  return i;
+}
+
+void printLine(node* head)
+{
+  if (head->next == NULL)
+  {
+    printf("No existen elementos en esta lista\n");
+    return;
+  }
+  
+  node* current = head;
+  
+  current = current->next;
+  printf("[%d", current->metat);
+  
+  while (current->next != NULL)
+  {
+    current = current->next;
+    printf(", %d", current->metat);
+  }
+  
+  printf("]\n");
+}
+
+int pop(node* head)
+{
+  node* auxNode;
+  if (len(head) == 1)
+  {
+    auxNode = head->next;
+    head->next = NULL;
+    free(auxNode);
+    return -1;
+  }
+  node* current = head;
+  while (current->next->next)
+  {
+    current = current->next;
+  }
+
+  auxNode = current->next;
+  int value = current->next->metat;
+  current->next = NULL;
+  free(auxNode);
+  return value;
+}
+
+int popFisrt(node* head)
+{
+  node* auxNode = head->next;
+  head->next = 
+}
+
+int main()
+{
+  node* head;
+  head = (node*) malloc(sizeof(node*));
+  add(head, 1);
+  add(head, 2);
+  printLine(head);
+  pop(head);
+  printLine(head);
+  pop(head);
+  printLine(head);
+  return 0;
+}
