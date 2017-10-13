@@ -9,7 +9,4 @@ typedef struct Node
   struct Node* next;
 } Node;
 
-typedef struct adjacencyList
-{
-
-}
+int matrix[][];
